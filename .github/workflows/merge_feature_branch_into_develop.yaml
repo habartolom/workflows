@@ -33,25 +33,12 @@ jobs:
     steps:
       - name: Checkout del código
         uses: actions/checkout@v3
-
-      - name: Merge
-        uses: devops-infra/action-pull-request@v0.6.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ github.ref }}
-          target_branch: develop
-          title: Merge ${{ github.ref }} into develop
-          body: Merge ${{ github.ref }} into develop
+          ref: develop
+          persist-credentials: true
 
-  delete-feature-branch:
-    name: Delete Feature Branch
-    needs: merge-feature-branch-into-develop
-    runs-on: ubuntu-latest
-    if: success()
-    
-    steps:
-      - name: Delete Branch
+      - name: Merge feature branch into develop
         run: |
-          gh api -X DELETE /repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git fetch origin ${{ github.ref_name }}
+          git merge origin/${{ github.ref_name }} --no-ff --no-edit
+          git push origin develop
