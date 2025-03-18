@@ -23,7 +23,7 @@ __pycache__/*
 tags
 
 #Ignorar la Base de Datos de Pruebas
-#testDB.sqlite
+testDB.sqlite
 
 # Package files
 *.egg
