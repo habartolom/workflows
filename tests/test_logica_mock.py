@@ -93,4 +93,3 @@ class LogicaMockTestCase(unittest.TestCase):
         self.assertEqual(persona["apellido"], "Mora")
 
     
-
