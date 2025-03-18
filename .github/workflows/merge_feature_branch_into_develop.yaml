@@ -38,7 +38,7 @@ jobs:
         uses: devops-infra/action-pull-request@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${{ github.ref }}
+          source_branch: ${{ github.ref_name }}
           target_branch: develop
-          title: Merge ${{ github.ref }} into develop
-          body: Merge ${{ github.ref }} into develop
+          title: Merge ${{ github.ref_name }} into develop
+          body: Merge ${{ github.ref_name }} into develop
