@@ -1,4 +1,4 @@
-name: Merge Feature Branch Into Develop
+name: Run Tests On Feature Branch
 
 on:
   push:
@@ -33,20 +33,25 @@ jobs:
     steps:
       - name: Checkout del código
         uses: actions/checkout@v3
-        with:
-          ref: develop
-          persist-credentials: true
 
-      - name: Set bot identity
+      - name: Merge
+        uses: devops-infra/action-pull-request@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${{ github.ref }}
+          target_branch: develop
+          title: Merge ${{ github.ref }} into develop
+          body: Merge ${{ github.ref }} into develop
+
+  delete-feature-branch:
+    name: Delete Feature Branch
+    needs: merge-feature-branch-into-develop
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+      - name: Delete Branch
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        
-      - name: Merge feature into develop
-        run: |
-          git fetch origin ${{ github.ref_name }}
-          git merge origin/${{ github.ref_name }} --no-ff --no-edit
-        
-      - name: Push to develop
-        run: |
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }} HEAD:develop
+          gh api -X DELETE /repos/${{ github.repository }}/git/refs/heads/${{ github.ref_name }}
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
