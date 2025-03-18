@@ -37,6 +37,11 @@ jobs:
           ref: develop
           persist-credentials: true
 
+      - name: Set bot identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Merge feature branch into develop
         run: |
           git fetch origin ${{ github.ref_name }}
