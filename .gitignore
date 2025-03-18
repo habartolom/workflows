@@ -22,8 +22,8 @@ __pycache__/*
 .idea
 tags
 
-#Igorar la Base de Datos de Pruebas
-testDB.sqlite
+#Ignorar la Base de Datos de Pruebas
+#testDB.sqlite
 
 # Package files
 *.egg
