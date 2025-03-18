@@ -94,4 +94,3 @@ class LogicaMockTestCase(unittest.TestCase):
 
     
 
-
